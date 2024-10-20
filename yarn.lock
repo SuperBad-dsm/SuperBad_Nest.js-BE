@@ -738,6 +738,11 @@
     path-to-regexp "3.3.0"
     tslib "2.7.0"
 
+"@nestjs/mapped-types@*":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-2.0.5.tgz#485d6b44e19779c98d04e52bd1d2bcc7001df0ea"
+  integrity sha512-bSJv4pd6EY99NX9CjBIyn4TVDoSit82DUZlL4I3bqNfy5Gt+gXTa86i3I/i0iIV9P4hntcGM5GyO+FhZAhxtyg==
+
 "@nestjs/platform-express@^10.0.0":
   version "10.4.5"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-10.4.5.tgz#bd58c8220712c7c1df0466aa20aa389d66d4e1e7"
@@ -4086,6 +4091,11 @@ postgres-interval@^1.1.0:
   integrity sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==
   dependencies:
     xtend "^4.0.0"
+
+posts@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/posts/-/posts-0.0.1.tgz#639c6cc29b1954ccc78f32b418482a71d05f562d"
+  integrity sha512-dVZYw+UPILlj9iLuQHpsNIiWchxqjmiLGSwIXAMv3aHIlJVR+qHRaHUUzZYG3zOv145uhHLNHdGhQS24QZKxRQ==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,7 +22,10 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  const configService = app.get(ConfigService);
+  const port: number = configService.get('PORT');
+
+  await app.listen(port);
 }
 
 bootstrap();

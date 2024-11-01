@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ProductsModel } from './domain/entities/products.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductsModule } from './product/products.module';
 import { UserModule } from './domain/user/users.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ProductsModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UserModule,
     TypeOrmModule.forRoot({
       //db type

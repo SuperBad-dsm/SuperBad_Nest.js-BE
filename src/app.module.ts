@@ -18,7 +18,7 @@ import { UsersModel } from './domain/entities/users.entity';
       port: 3306,
       username: 'root',
       password: 'Inging2514!',
-      database: 'your_database',
+      database: 'superbad',
       entities: [UsersModel, ProductsModel],
       synchronize: true,
     }),

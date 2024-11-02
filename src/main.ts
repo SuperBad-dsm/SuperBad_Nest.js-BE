@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -12,7 +12,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  //서버에 Request가 들어올 때 유효성 검사를 해줌
+  // 서버에 Request가 들어올 때 유효성 검사를 해줌
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -23,9 +23,10 @@ async function bootstrap() {
   );
 
   const configService = app.get(ConfigService);
-  const port: number = configService.get('PORT');
+  const port: number = configService.get<number>('PORT') || 3000;  // 기본 포트 3000 설정
 
   await app.listen(port);
+  console.log(`Server is running on http://localhost:${port}`);
 }
 
 bootstrap();

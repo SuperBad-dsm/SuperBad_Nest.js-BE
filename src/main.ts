@@ -23,7 +23,7 @@ async function bootstrap() {
   );
 
   const configService = app.get(ConfigService);
-  const port: number = configService.get<number>('PORT') || 3000;  // 기본 포트 3000 설정
+  const port: number = configService.get<number>('PORT') || 3000; // 기본 포트 3000 설정
 
   await app.listen(port);
   console.log(`Server is running on http://localhost:${port}`);

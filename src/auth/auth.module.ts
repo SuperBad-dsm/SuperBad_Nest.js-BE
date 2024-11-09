@@ -11,11 +11,11 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'keykeykeyfmfgksrnrdjfhgkausdufthl',
-      signOptions: { expiresIn: '3h' },
+      secret: process.env.JWT_SECRET || 'defaultSecretKey',
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '3h' },
     }),
   ],
-  controllers: [AuthController, JwtStrategy],
-  providers: [AuthService],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

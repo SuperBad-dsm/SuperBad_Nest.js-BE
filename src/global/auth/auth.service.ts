@@ -28,7 +28,7 @@ export class AuthService {
 
     const payload = { userId: user.userId };
     const token = this.jwtService.sign(payload);
-    console.log('Generated Token:', token); // 토큰 출력
+    console.log('Generated Token:', token);
     return { token };
   }
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductsModel } from 'src/domain/entities/products.entity';
 import { UsersModel } from 'src/domain/entities/users.entity';
+import { S3Service } from 'src/global/s3/s3.service';
 
 export interface ProductModel {
   id: number;
@@ -14,6 +15,7 @@ export interface ProductModel {
   heartCount: number;
   status: string;
   seller: UsersModel;
+  imageUrl: string | null;
 }
 
 @Injectable()
@@ -23,6 +25,7 @@ export class ProductsService {
     private readonly productsRepository: Repository<ProductsModel>,
     @InjectRepository(UsersModel)
     private readonly usersRepository: Repository<UsersModel>,
+    private readonly s3Service: S3Service,
   ) {}
 
   async getAllProducts() {
@@ -48,6 +51,7 @@ export class ProductsService {
     content: string,
     price: number,
     category: string,
+    image: Express.Multer.File,
   ) {
     const seller = await this.usersRepository.findOne({
       where: { userId },
@@ -55,6 +59,10 @@ export class ProductsService {
     if (!seller) {
       throw new NotFoundException(`Seller with ID ${userId} not found`);
     }
+
+    const uploadResult = await this.s3Service.uploadImage(image);
+
+    const imageUrl = this.s3Service.getFileUrl(uploadResult.key);
 
     const product = this.productsRepository.create({
       title,
@@ -65,6 +73,7 @@ export class ProductsService {
       heartCount: 0,
       status: 'available',
       seller,
+      imageUrl,
     });
 
     return this.productsRepository.save(product);

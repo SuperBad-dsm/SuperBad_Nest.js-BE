@@ -33,7 +33,8 @@ export class ProductsModel {
   @Column({ type: 'varchar', default: 'ONSALES' })
   status: string;
 
-  productImage: string;
+  @Column()
+  imageUrl: string;
 
   // 판매한사람 매매매매핑
   @ManyToOne(() => UsersModel, (user) => user.products)

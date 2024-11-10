@@ -6,9 +6,12 @@ import {
   Post,
   UseGuards,
   Request,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/global/auth/guards/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('products')
 export class ProductsController {
@@ -28,6 +31,7 @@ export class ProductsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   async createProduct(
     @Body()
     createProductDto: {
@@ -37,6 +41,7 @@ export class ProductsController {
       category: string;
     },
     @Request() req,
+    @UploadedFile() image: Express.Multer.File,
   ) {
     const { userId } = req.user;
     const { title, content, price, category } = createProductDto;
@@ -47,6 +52,7 @@ export class ProductsController {
       content,
       price,
       category,
+      image,
     );
   }
 }

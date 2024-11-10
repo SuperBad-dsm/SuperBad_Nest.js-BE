@@ -21,23 +21,52 @@ export class ProductsService {
   constructor(
     @InjectRepository(ProductsModel)
     private readonly productsRepository: Repository<ProductsModel>,
+    @InjectRepository(UsersModel)
+    private readonly usersRepository: Repository<UsersModel>,
   ) {}
 
   async getAllProducts() {
-    return this.productsRepository.find();
+    return this.productsRepository.find({ relations: ['seller'] });
   }
 
   async getProductById(id: number) {
     const product = await this.productsRepository.findOne({
-      where: {
-        id,
-      },
+      where: { id },
+      relations: ['seller'],
     });
 
     if (!product) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Product with ID ${id} not found`);
     }
 
     return product;
+  }
+
+  async createProduct(
+    userId: string,
+    title: string,
+    content: string,
+    price: number,
+    category: string,
+  ) {
+    const seller = await this.usersRepository.findOne({
+      where: { userId },
+    });
+    if (!seller) {
+      throw new NotFoundException(`Seller with ID ${userId} not found`);
+    }
+
+    const product = this.productsRepository.create({
+      title,
+      content,
+      price,
+      category,
+      createdDate: new Date(),
+      heartCount: 0,
+      status: 'available',
+      seller,
+    });
+
+    return this.productsRepository.save(product);
   }
 }

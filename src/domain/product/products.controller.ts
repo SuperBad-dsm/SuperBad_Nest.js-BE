@@ -1,4 +1,12 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
@@ -6,17 +14,39 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  //모든 상품 가져오기
   @Get()
   @UseGuards(JwtAuthGuard)
   getProducts() {
     return this.productsService.getAllProducts();
   }
 
-  //특정 상품 정보 가져오기
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   getProduct(@Param('id') id: string) {
     return this.productsService.getProductById(+id);
+  }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  async createProduct(
+    @Body()
+    createProductDto: {
+      title: string;
+      content: string;
+      price: number;
+      category: string;
+    },
+    @Request() req,
+  ) {
+    const { userId } = req.user;
+    const { title, content, price, category } = createProductDto;
+
+    return this.productsService.createProduct(
+      userId,
+      title,
+      content,
+      price,
+      category,
+    );
   }
 }

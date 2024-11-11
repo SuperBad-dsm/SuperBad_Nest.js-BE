@@ -78,4 +78,32 @@ export class ProductsService {
 
     return this.productsRepository.save(product);
   }
+
+  async addHeart(productId: number) {
+    const product = await this.productsRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`상품업슴`);
+    }
+
+    product.heartCount += 1;
+    return this.productsRepository.save(product);
+  }
+
+  async removeHeart(productId: number) {
+    const product = await this.productsRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`상품업슴`);
+    }
+
+    if (product.heartCount > 0) {
+      product.heartCount -= 1;
+    }
+    return this.productsRepository.save(product);
+  }
 }

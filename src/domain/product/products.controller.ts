@@ -8,6 +8,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  Patch,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from 'src/global/auth/guards/jwt-auth.guard';
@@ -54,5 +55,17 @@ export class ProductsController {
       category,
       image,
     );
+  }
+
+  @Patch(':id/heart')
+  @UseGuards(JwtAuthGuard)
+  async addHeart(@Param('id') id: string) {
+    return this.productsService.addHeart(+id);
+  }
+
+  @Patch(':id/unheart')
+  @UseGuards(JwtAuthGuard)
+  async removeHeart(@Param('id') id: string) {
+    return this.productsService.removeHeart(+id);
   }
 }

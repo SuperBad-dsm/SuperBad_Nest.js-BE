@@ -68,4 +68,13 @@ export class ProductsController {
   async removeHeart(@Param('id') id: string) {
     return this.productsService.removeHeart(+id);
   }
+
+  @Patch(':id/status')
+  @UseGuards(JwtAuthGuard)
+  async updateStatus(
+    @Param('id') productId: number,
+    @Body('status') newStatus: string,
+  ) {
+    return await this.productsService.updateStatus(productId, newStatus);
+  }
 }

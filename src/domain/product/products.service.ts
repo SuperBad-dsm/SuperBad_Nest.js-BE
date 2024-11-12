@@ -106,4 +106,27 @@ export class ProductsService {
     }
     return this.productsRepository.save(product);
   }
+
+  async updateStatus(
+    productId: number,
+    newStatus: string,
+  ): Promise<ProductsModel> {
+    const validStatuses = ['ONSALES', 'RESERVATION', 'SOLDOUT'];
+    if (!validStatuses.includes(newStatus)) {
+      throw new Error('상태가 메롱인데용');
+    }
+
+    const product = await this.productsRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException();
+    }
+
+    product.status = newStatus;
+    await this.productsRepository.save(product);
+
+    return product;
+  }
 }

@@ -71,7 +71,7 @@ export class ProductsService {
       category,
       createdDate: new Date(),
       heartCount: 0,
-      status: 'available',
+      status: 'ONSALES',
       seller,
       imageUrl,
     });

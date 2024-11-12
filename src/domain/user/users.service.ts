@@ -22,4 +22,11 @@ export class UsersService {
     });
     return this.usersRepository.save(newUser);
   }
+
+  async findOneWithProducts(userId: string) {
+    return this.usersRepository.findOne({
+      where: { userId },
+      relations: ['products'],
+    });
+  }
 }

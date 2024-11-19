@@ -35,3 +35,4 @@ export class S3Service {
     return `https://${process.env.S3_BK}.s3.${process.env.AWS_RG}.amazonaws.com/${key}`;
   }
 }
+//재배포
